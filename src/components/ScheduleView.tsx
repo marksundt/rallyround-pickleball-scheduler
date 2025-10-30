@@ -1,22 +1,9 @@
 import { useScheduleStore } from '@/store/schedule-store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { CalendarDays, Shield } from 'lucide-react';
-import { motion } from 'framer-motion';
-interface FlatMatch {
-  round: number;
-  court: number;
-  team1: [string, string];
-  team2: [string, string];
-}
+import { Separator } from '@/components/ui/separator';
+import { Users, Shield, Swords, CalendarDays } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 export function ScheduleView() {
   const schedule = useScheduleStore((s) => s.schedule);
   if (!schedule) {
@@ -30,90 +17,60 @@ export function ScheduleView() {
       </div>
     );
   }
-  const allMatches: FlatMatch[] = schedule.flatMap(round =>
-    round.matches.map(match => ({
-      round: round.round,
-      ...match
-    }))
-  );
-  const byesByRound = schedule.filter(round => round.byes.length > 0);
   return (
     <div className="space-y-8">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Card className="shadow-lg border-border/50 overflow-hidden">
-          <CardHeader className="bg-muted/50">
-            <CardTitle className="text-2xl font-bold text-rally-blue">Match Schedule</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[80px] text-center">Round</TableHead>
-                    <TableHead className="w-[80px] text-center">Court</TableHead>
-                    <TableHead>Team 1</TableHead>
-                    <TableHead>Team 2</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {allMatches.map((match, index) => (
-                    <TableRow key={`${match.round}-${match.court}-${index}`}>
-                      <TableCell className="font-medium text-center">{match.round}</TableCell>
-                      <TableCell className="text-center">{match.court}</TableCell>
-                      <TableCell>
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                          <Badge variant="default" className="bg-rally-blue/20 text-rally-blue border-rally-blue/30 px-3 py-1 text-sm justify-center">{match.team1[0]}</Badge>
-                          <Badge variant="default" className="bg-rally-blue/20 text-rally-blue border-rally-blue/30 px-3 py-1 text-sm justify-center">{match.team1[1]}</Badge>
+      <AnimatePresence>
+        {schedule.map((round, index) => (
+          <motion.div
+            key={round.round}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
+            <Card className="shadow-lg border-border/50 overflow-hidden">
+              <CardHeader className="bg-muted/50">
+                <CardTitle className="text-2xl font-bold text-rally-blue">Round {round.round}</CardTitle>
+              </CardHeader>
+              <CardContent className="p-6 space-y-6">
+                {round.matches.length > 0 && (
+                  <div className="space-y-4">
+                    {round.matches.map((match) => (
+                      <div key={match.court} className="p-4 border rounded-lg bg-background">
+                        <h4 className="font-bold text-lg mb-3 text-foreground">Court {match.court}</h4>
+                        <div className="flex items-center justify-center gap-4 text-center">
+                          <div className="flex flex-col items-center gap-2">
+                            <Badge variant="default" className="bg-rally-blue/20 text-rally-blue border-rally-blue/30 px-3 py-1 text-sm">{match.team1[0]}</Badge>
+                            <Badge variant="default" className="bg-rally-blue/20 text-rally-blue border-rally-blue/30 px-3 py-1 text-sm">{match.team1[1]}</Badge>
+                          </div>
+                          <Swords className="w-6 h-6 text-muted-foreground" />
+                          <div className="flex flex-col items-center gap-2">
+                            <Badge variant="default" className="bg-rally-green/20 text-rally-green border-rally-green/30 px-3 py-1 text-sm">{match.team2[0]}</Badge>
+                            <Badge variant="default" className="bg-rally-green/20 text-rally-green border-rally-green/30 px-3 py-1 text-sm">{match.team2[1]}</Badge>
+                          </div>
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                          <Badge variant="default" className="bg-rally-green/20 text-rally-green border-rally-green/30 px-3 py-1 text-sm justify-center">{match.team2[0]}</Badge>
-                          <Badge variant="default" className="bg-rally-green/20 text-rally-green border-rally-green/30 px-3 py-1 text-sm justify-center">{match.team2[1]}</Badge>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-      {byesByRound.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          <Card className="shadow-lg border-border/50 overflow-hidden">
-            <CardHeader className="bg-muted/50">
-              <CardTitle className="text-2xl font-bold text-rally-gray flex items-center gap-2">
-                <Shield className="w-6 h-6" />
-                Players on Bye
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-6 space-y-4">
-              {byesByRound.map(round => (
-                <div key={round.round}>
-                  <h4 className="font-semibold text-md mb-2 text-muted-foreground">
-                    Round {round.round}
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {round.byes.map((player) => (
-                      <Badge key={player} variant="outline" className="text-sm">{player}</Badge>
+                      </div>
                     ))}
                   </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </motion.div>
-      )}
+                )}
+                {round.matches.length > 0 && round.byes.length > 0 && <Separator />}
+                {round.byes.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-md mb-2 flex items-center gap-2 text-muted-foreground">
+                      <Shield className="w-5 h-5" />
+                      Players on Bye
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {round.byes.map((player) => (
+                        <Badge key={player} variant="outline" className="text-sm">{player}</Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </div>
   );
 }

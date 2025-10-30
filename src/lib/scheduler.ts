@@ -24,40 +24,39 @@ export function generateSchedule(players: string[], courtCount: number): Schedul
   }
   const schedule: Schedule = [];
   let playerQueue = [...players];
-  // Add a dummy player if the count is odd to make pairings easier.
-  const dummyPlayer = 'dummy-bye-player-internal';
-  if (playerQueue.length % 2 !== 0) {
-    playerQueue.push(dummyPlayer);
-  }
-  const numPlayers = playerQueue.length;
-  const numRounds = numPlayers - 1;
+  // Simple rotation: move the second player to the end. This ensures new pairings over time.
+  // A more complex algorithm could track all pairs, but this is a good start.
+  const rotatePlayers = (arr: string[]) => {
+    if (arr.length < 2) return arr;
+    const newArr = [...arr];
+    const first = newArr.shift()!;
+    const second = newArr.shift()!;
+    newArr.push(second);
+    newArr.unshift(first);
+    return newArr;
+  };
+  const numRounds = players.length > 4 ? players.length - 1 : 1;
   for (let i = 0; i < numRounds; i++) {
     const roundPlayers = [...playerQueue];
     const matches: Match[] = [];
     const byes: string[] = [];
-    for (let courtNum = 1; courtNum <= courtCount; courtNum++) {
-      if (roundPlayers.length < 4) {
-        break; // Not enough players for another match on another court
-      }
+    let courtNum = 1;
+    while (roundPlayers.length >= 4 && courtNum <= courtCount) {
       const matchPlayers = roundPlayers.splice(0, 4);
       matches.push({
         court: courtNum,
-        team1: [matchPlayers[0], matchPlayers[3]],
-        team2: [matchPlayers[1], matchPlayers[2]],
+        team1: [matchPlayers[0], matchPlayers[1]],
+        team2: [matchPlayers[2], matchPlayers[3]],
       });
+      courtNum++;
     }
-    // Any remaining players (including the dummy) are on bye for this round.
-    byes.push(...roundPlayers.filter(p => p !== dummyPlayer));
+    byes.push(...roundPlayers);
     schedule.push({
       round: i + 1,
       matches,
       byes,
     });
-    // Rotate players for the next round, keeping the first player fixed.
-    const firstPlayer = playerQueue.shift()!;
-    const lastPlayer = playerQueue.pop()!;
-    playerQueue.unshift(lastPlayer);
-    playerQueue.unshift(firstPlayer);
+    playerQueue = rotatePlayers(playerQueue);
   }
   return schedule;
 }

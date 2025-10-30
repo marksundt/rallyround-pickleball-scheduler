@@ -91,6 +91,9 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+        'rally-blue': 'rgb(59, 130, 246)',
+        'rally-green': 'rgb(16, 185, 129)',
+        'rally-gray': 'rgb(107, 114, 128)',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			muted: {
