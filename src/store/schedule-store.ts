@@ -34,8 +34,11 @@ export const useScheduleStore = create<ScheduleState>((set, get) => ({
     }));
   },
   setCourtCount: (count) => {
-    const newCount = Math.max(1, count || 1);
-    set({ courtCount: newCount, error: null });
+    if (isNaN(count) || count < 1) {
+      set({ courtCount: 1, error: null });
+    } else {
+      set({ courtCount: Math.floor(count), error: null });
+    }
   },
   generate: () => {
     const { players, courtCount } = get();
