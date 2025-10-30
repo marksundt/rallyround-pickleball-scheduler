@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Toaster, toast } from '@/components/ui/sonner';
-import { AlertCircle, Pickleball, GanttChartSquare, RotateCw } from 'lucide-react';
+import { AlertCircle, Dribbble, GanttChartSquare, RotateCw } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 export function HomePage() {
   const players = useScheduleStore((s) => s.players);
@@ -43,7 +43,7 @@ export function HomePage() {
                 className="inline-block"
               >
                 <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-gray-50 flex items-center gap-4 justify-center">
-                  <Pickleball className="w-12 h-12 text-rally-green" />
+                  <Dribbble className="w-12 h-12 text-rally-green" />
                   RallyRound
                 </h1>
               </motion.div>
