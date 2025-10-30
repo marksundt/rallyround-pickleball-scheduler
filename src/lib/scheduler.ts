@@ -40,8 +40,8 @@ export function generateSchedule(players: string[], courtCount: number): Schedul
       const matchPlayers = roundPlayers.splice(0, 4);
       matches.push({
         court: courtNum,
-        team1: [matchPlayers[0], matchPlayers[1]],
-        team2: [matchPlayers[2], matchPlayers[3]],
+        team1: [matchPlayers[0], matchPlayers[3]],
+        team2: [matchPlayers[1], matchPlayers[2]],
       });
       courtNum++;
     }
