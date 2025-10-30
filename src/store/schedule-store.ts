@@ -30,11 +30,12 @@ export const useScheduleStore = create<ScheduleState>((set, get) => ({
   removePlayer: (name) => {
     set((state) => ({
       players: state.players.filter((p) => p !== name),
+      error: null,
     }));
   },
   setCourtCount: (count) => {
-    const newCount = Math.max(1, count);
-    set({ courtCount: newCount });
+    const newCount = Math.max(1, count || 1);
+    set({ courtCount: newCount, error: null });
   },
   generate: () => {
     const { players, courtCount } = get();
