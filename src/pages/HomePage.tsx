@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Toaster, toast } from '@/components/ui/sonner';
-import { AlertCircle, Pickleball, GanttChartSquare, Trash2 } from 'lucide-react';
+import { AlertCircle, Pickleball, GanttChartSquare, RotateCw } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 export function HomePage() {
   const players = useScheduleStore((s) => s.players);
@@ -83,7 +83,7 @@ export function HomePage() {
                     onClick={handleGenerate}
                     disabled={players.length < 4}
                   >
-                    {schedule ? <Trash2 className="mr-2 h-5 w-5" /> : <GanttChartSquare className="mr-2 h-5 w-5" />}
+                    {schedule ? <RotateCw className="mr-2 h-5 w-5" /> : <GanttChartSquare className="mr-2 h-5 w-5" />}
                     {schedule ? 'Clear & Regenerate' : 'Generate Schedule'}
                   </Button>
                 </motion.div>
