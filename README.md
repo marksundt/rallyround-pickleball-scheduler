@@ -2,7 +2,7 @@
 
 A visually stunning round-robin scheduler for doubles pickleball, designed to create balanced and varied matchups for any number of players and courts.
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/marksundt/rallyround-pickleball-scheduler)
 
 RallyRound is a single-page web application designed to effortlessly generate round-robin schedules for doubles pickleball. Users can input a list of player names and specify the number of available courts. The application's core logic then calculates and displays a balanced schedule, ensuring players are rotated to play with and against different opponents across multiple rounds. For scenarios with more players than court capacity, the scheduler intelligently assigns 'byes' (sit-out rounds) to players, ensuring everyone gets fair playing time. The interface is designed to be intuitive, clean, and highly interactive, providing a seamless experience from player entry to viewing the final, beautifully rendered schedule.
 
@@ -90,7 +90,7 @@ This command will build the Vite frontend, then deploy the application and the a
 
 Alternatively, you can deploy your own version of this project with a single click.
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/marksundt/rallyround-pickleball-scheduler)
 
 ## 🤝 Contributing
 
